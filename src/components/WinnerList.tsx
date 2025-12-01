@@ -14,6 +14,12 @@ interface WinnerListProps {
 export default function WinnerList({ config, winners, onReset }: WinnerListProps) {
   const [showEmail, setShowEmail] = useState(false);
 
+  // 匯出純姓名文字檔
+  const exportNameOnly = () => {
+    const content = winners.map(w => w.name).join('\n');
+    downloadFile(content, `${config.eventName}_${config.prizeName}_names.txt`);
+  };
+
   // 匯出純 Email 文字檔
   const exportEmailOnly = () => {
     const content = winners.map(w => w.email).join('\n');
@@ -97,7 +103,16 @@ export default function WinnerList({ config, winners, onReset }: WinnerListProps
       </div>
 
       {/* Export Buttons */}
-      <div className="flex gap-3 justify-center">
+      <div className="flex flex-wrap gap-3 justify-center">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={exportNameOnly}
+          className="px-4 py-2 bg-slate-700/50 border border-cyan-500/50 rounded-lg
+                     text-cyan-400 text-sm hover:bg-cyan-500/20 transition-all duration-300"
+        >
+          👤 匯出姓名
+        </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -114,7 +129,7 @@ export default function WinnerList({ config, winners, onReset }: WinnerListProps
           className="px-4 py-2 bg-slate-700/50 border border-orange-500/50 rounded-lg
                      text-orange-400 text-sm hover:bg-orange-500/20 transition-all duration-300"
         >
-          📋 匯出 姓名+Email
+          📋 匯出姓名+Email
         </motion.button>
       </div>
 
