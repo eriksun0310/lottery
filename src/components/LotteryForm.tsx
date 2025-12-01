@@ -15,6 +15,7 @@ export default function LotteryForm({ onStartDraw }: LotteryFormProps) {
   const [winnerCount, setWinnerCount] = useState(1);
   const [participantText, setParticipantText] = useState('');
   const [error, setError] = useState('');
+  const [showParticipantCount, setShowParticipantCount] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,9 +110,19 @@ export default function LotteryForm({ onStartDraw }: LotteryFormProps) {
           <label className="block text-cyan-400 text-sm font-medium">
             參與者名單
           </label>
-          <span className="text-sm text-slate-400">
-            已解析 <span className="text-cyan-400 font-bold">{participantCount}</span> 位參與者
-          </span>
+          <button
+            type="button"
+            onClick={() => setShowParticipantCount(!showParticipantCount)}
+            className={`px-3 py-1 text-sm rounded-full border transition-all duration-300 ${
+              showParticipantCount
+                ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400'
+                : 'bg-slate-800/50 border-slate-600 text-slate-400 hover:border-cyan-500/50'
+            }`}
+          >
+            {showParticipantCount
+              ? `👁 ${participantCount} 位參與者`
+              : '👁‍🗨 顯示人數'}
+          </button>
         </div>
         <textarea
           value={participantText}

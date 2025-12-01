@@ -14,6 +14,31 @@ interface WinnerListProps {
 export default function WinnerList({ config, winners, onReset }: WinnerListProps) {
   const [showEmail, setShowEmail] = useState(false);
 
+  // 匯出純 Email 文字檔
+  const exportEmailOnly = () => {
+    const content = winners.map(w => w.email).join('\n');
+    downloadFile(content, `${config.eventName}_${config.prizeName}_emails.txt`);
+  };
+
+  // 匯出 Name + Email 文字檔
+  const exportNameAndEmail = () => {
+    const content = winners.map(w => `${w.name}\t${w.email}`).join('\n');
+    downloadFile(content, `${config.eventName}_${config.prizeName}_winners.txt`);
+  };
+
+  // 下載檔案
+  const downloadFile = (content: string, filename: string) => {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -69,6 +94,28 @@ export default function WinnerList({ config, winners, onReset }: WinnerListProps
             </div>
           </motion.div>
         ))}
+      </div>
+
+      {/* Export Buttons */}
+      <div className="flex gap-3 justify-center">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={exportEmailOnly}
+          className="px-4 py-2 bg-slate-700/50 border border-green-500/50 rounded-lg
+                     text-green-400 text-sm hover:bg-green-500/20 transition-all duration-300"
+        >
+          📧 匯出 Email
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={exportNameAndEmail}
+          className="px-4 py-2 bg-slate-700/50 border border-orange-500/50 rounded-lg
+                     text-orange-400 text-sm hover:bg-orange-500/20 transition-all duration-300"
+        >
+          📋 匯出 姓名+Email
+        </motion.button>
       </div>
 
       {/* Action Buttons */}
