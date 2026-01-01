@@ -132,7 +132,7 @@ export default function LotteryForm({ onStartDraw }: LotteryFormProps) {
                      text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400
                      focus:shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-all duration-300
                      font-mono text-sm resize-none"
-          placeholder="格式：UUID EMAIL 姓名（每行一筆)"
+          placeholder="格式：姓名 Email（每行一筆）&#x0A;範例：&#x0A;Louis louis99032006@gmail.com&#x0A;Baileys elayne1012742@gmail.com"
         />
       </div>
 
